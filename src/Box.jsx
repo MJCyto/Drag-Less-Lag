@@ -4,7 +4,7 @@ import {forwardRef} from "react";
 const style = {
     backgroundColor: 'white',
     cursor: 'move',
-    float: 'left',
+    // float: 'left',
     width: "100%"
 };
 const Box = ({ index, element, itemDims, setItemDims, listID }, ref) => {
