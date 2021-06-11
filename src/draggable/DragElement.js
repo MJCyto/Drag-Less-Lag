@@ -7,6 +7,9 @@ import styled from "styled-components";
 
 const DropLineWrapper = styled.div`
   display: flex;
+  //background-color: red;
+  height: ${props => props.itemSpacing}px;
+  width: 100%;
 `;
 
 // const style = {
@@ -86,20 +89,17 @@ const DragElement = (props, sampleRef) => {
         ref={drop}
         role={"Dustbin"}
         style={{
-          margin: -itemSpacing / 2 + "px 0",
+          // margin: -itemSpacing / 2 + "px 0",
           position: "relative",
           zIndex: isDragging ? 2 : 1,
         }}
       >
         <DropLineWrapper
           style={{
-            backgroundColor: "red",
-            height: itemSpacing,
-            width: "100%",
             opacity: position === 0 ? 1 : 0,
-            // opacity: canDrop && isOver? 1: 0,
-            paddingBottom: 10,
+            paddingBottom: itemSpacing / 2,
           }}
+          itemSpacing={itemSpacing}
         >
           <DropLine />
         </DropLineWrapper>
@@ -125,12 +125,10 @@ const DragElement = (props, sampleRef) => {
 
         <DropLineWrapper
           style={{
-            backgroundColor: "red",
-            height: itemSpacing,
-            width: "100%",
-            paddingTop: 10,
+            // paddingTop: itemSpacing / 2,
             opacity: position === 2 ? 1 : 0,
           }}
+          itemSpacing={itemSpacing}
         >
           <DropLine />
         </DropLineWrapper>
