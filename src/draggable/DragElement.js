@@ -29,11 +29,9 @@ const DragElement = (props, sampleRef) => {
   const { index, itemSpacing, listItem, listID } = props;
   const itemRef = useRef(null);
 
-  console.log(listID);
-
   const [{ isDragging }, drag] = useDrag(() => ({
     type: listID,
-    item: monitor => ({ index }),
+    item: monitor => ({ index, listID, element: listItem }),
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {

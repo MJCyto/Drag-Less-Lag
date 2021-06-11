@@ -1,48 +1,14 @@
 import { usePreview } from "react-dnd-preview";
-import { memo, useCallback, useState } from "react";
-import { Dustbin } from "../Dustbin";
+import { memo } from "react";
 import useDimensions from "../useDimensions";
-import Box from "../Box";
-import { debounce } from "lodash";
 import DragElement from "./DragElement";
 import { v4 as uuidv4 } from "uuid";
 
-const DragPreview = props => {
-  const { elements, width, itemSpacing } = props;
-
-  const { display, item, style } = usePreview();
-  if (!display) {
-    return null;
-  }
-  // console.log(style)
-  // transform: "translate(332.6875px, -2px)"
-
-  const thing = style.transform.replace("translate(", "").replace(")", "").replaceAll("px", "");
-  const coordinates = thing.split(",");
-  // const coordinates = style.transform.split("(")[1].split[","]
-  // coordinates[0] = parseFloat(coordinates[0].replace("px", "")) + itemSpacing
-  // coordinates[1] = parseFloat(coordinates[1].split("px")[0])
-
-  const newTransform =
-    "translate(" + parseFloat(coordinates[0]) + itemSpacing + "px, " + coordinates[1] + "px)";
-
-  const newStyle = {
-    ...style,
-    transform: newTransform,
-  };
-  //display: "flex", alignContent: "center"
-  return (
-    <div class="item-list__item" style={{ ...newStyle, width: width + "px", zIndex: 3 }}>
-      <div style={{ transform: `translateY(${itemSpacing}px)`, width: "100%" }}>
-        {elements[item.index]}
-      </div>
-    </div>
-  );
-};
-
-const DraggableList = memo(function DraggableList(props) {
-  const { children, style, itemSpacing, listID } = props;
+const DraggableList = function DraggableList(props) {
+  const { children, style, itemSpacing } = props;
   const [sampleRef, sampleDims] = useDimensions();
+
+  const listID = uuidv4();
 
   return (
     <div>
@@ -61,9 +27,14 @@ const DraggableList = memo(function DraggableList(props) {
           </div>
         ))}
       </div>
-      <DragPreview elements={children} width={sampleDims.width} itemSpacing={itemSpacing} />
+      {/*<DragPreview*/}
+      {/*  elements={children}*/}
+      {/*  width={sampleDims.width}*/}
+      {/*  itemSpacing={itemSpacing}*/}
+      {/*  listID={listID}*/}
+      {/*/>*/}
     </div>
   );
-});
+};
 
 export default DraggableList;
