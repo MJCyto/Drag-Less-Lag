@@ -9,6 +9,8 @@
 	import { usePreview } from 'react-dnd-preview'
 	import DraggableList from "./draggable/DraggableList";
 	import {useState} from "react";
+	import { v4 as uuidv4 } from "uuid";
+	import {ItemTypes} from "./ItemTypes";
 	//
 	// const MyPreview = () => {
 	// 	const {display, itemType, item, style} = usePreview()
@@ -24,15 +26,30 @@
 		background-color: green;
 	`;
 
+	const Wrapper = styled.div`
+		display: grid;
+		grid-template-columns: 30% 30% 30%;
+		column-gap: 10px;
+	`;
+
 	function App() {
 
 		const [list, setList] = useState(["Hello", "Dingus", "Yes", "No", "Goodbye"])
 		return (
 			<div className="App">
 				<DndProvider backend={TouchBackend} options={{enableMouseEvents: true}}>
-					<DraggableList itemSpacing={10}>
-						{list.map((listItem, index) => <Item>{listItem}</Item>)}
-					</DraggableList>
+					<Wrapper>
+						<DraggableList itemSpacing={10} listID={ItemTypes.BOX}>
+							{list.map((listItem, index) => <Item>{listItem}</Item>)}
+						</DraggableList>
+						<DraggableList itemSpacing={10} listID={ItemTypes.TWO}>
+							{list.map((listItem, index) => <Item>{listItem}</Item>)}
+						</DraggableList>
+						<DraggableList itemSpacing={10} listID={ItemTypes.THREE}>
+							{list.map((listItem, index) => <Item>{listItem}</Item>)}
+						</DraggableList>
+					</Wrapper>
+
 				</DndProvider>
 			</div>
 		)

@@ -20,7 +20,7 @@ const style = {
     float: 'left',
 };
 export const Dustbin = (props) => {
-    const {itemSpacing, index, hoveredIndex, setHoveredIndex} = props;
+    const {itemSpacing, index, hoveredIndex} = props;
     const [{ canDrop, isOver }, drop] = useDrop(() => ({
         accept: ItemTypes.BOX,
         drop: () => ({ name: 'Dustbin' }),
@@ -28,7 +28,6 @@ export const Dustbin = (props) => {
             const isOver = monitor.isOver();
             const canDrop = monitor.canDrop();
             if (canDrop && isOver){
-                setHoveredIndex(index)
                 // monitor.getItem().hoveringIndex = index;
             }
             return {

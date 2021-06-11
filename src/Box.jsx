@@ -7,22 +7,22 @@ const style = {
     float: 'left',
     width: "100%"
 };
-const Box = ({ index, element, itemDims, setItemDims }, ref) => {
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: ItemTypes.BOX,
-        item: (monitor) => ({ index }),
-        end: (item, monitor) => {
-            const dropResult = monitor.getDropResult();
-            if (item && dropResult) {
-                alert(`You dropped ${item.index} into ${dropResult.name}!`);
-            }
-        },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    }));
-    const opacity = isDragging ? 0 : 1;
-    return (<div ref={drag} style={{ ...style, opacity }} >
+const Box = ({ index, element, itemDims, setItemDims, listID }, ref) => {
+    // const [{ isDragging }, drag] = useDrag(() => ({
+    //     type: listID,
+    //     item: (monitor) => ({ index }),
+    //     end: (item, monitor) => {
+    //         const dropResult = monitor.getDropResult();
+    //         if (item && dropResult) {
+    //             alert(`You dropped ${item.index} into ${dropResult.name}!`);
+    //         }
+    //     },
+    //     collect: (monitor) => ({
+    //         isDragging: monitor.isDragging(),
+    //     }),
+    // }));
+    // const opacity = isDragging ? 0 : 1;
+    return (<div  style={{ ...style }} >
         <div ref={ref}>{element}</div>
 		</div>);
 };
