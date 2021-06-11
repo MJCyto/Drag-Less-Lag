@@ -1,5 +1,5 @@
 import { usePreview } from "react-dnd-preview";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import useDimensions from "../useDimensions";
 import DragElement from "./DragElement";
 import { v4 as uuidv4 } from "uuid";
@@ -9,6 +9,10 @@ const DraggableList = function DraggableList(props) {
   const [sampleRef, sampleDims] = useDimensions();
 
   const listID = uuidv4();
+
+  const itemWidth = useMemo(() => {
+    return sampleDims.width;
+  }, [sampleRef.current, sampleDims.width]);
 
   return (
     <div>
@@ -22,6 +26,7 @@ const DraggableList = function DraggableList(props) {
               itemSpacing={itemSpacing}
               listItem={listItem}
               ref={sampleRef}
+              itemWidth={itemWidth}
               listID={listID}
             />
           </div>

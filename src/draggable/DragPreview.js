@@ -7,7 +7,7 @@ const DragPreview = props => {
   if (!display) {
     return null;
   }
-  // console.log(style)
+  // console.log(item);
   // transform: "translate(332.6875px, -2px)"
 
   // const thing = style.transform.replace("translate(", "").replace(")", "").replaceAll("px", "");
@@ -30,21 +30,14 @@ const DragPreview = props => {
   // }
   return (
     <div
-      class="item-list__item"
+      className="item-list__item"
       style={{
         ...newStyle,
-        // width: width + "px",
+        width: item.width + "px",
         zIndex: 3,
       }}
     >
-      <div
-        style={{
-          // transform: `translateY(${itemSpacing}px)`,
-          width: "100%",
-        }}
-      >
-        {item.element}
-      </div>
+      {item.element}
     </div>
   );
   // }

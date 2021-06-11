@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from "react";
+import { forwardRef, memo, useRef } from "react";
 import { Dustbin } from "../Dustbin";
 import Box from "../Box";
 import { useDrag, useDrop } from "react-dnd";
@@ -26,60 +26,66 @@ const DropLineWrapper = styled.div`
 // };
 
 const DragElement = (props, sampleRef) => {
-  const { index, itemSpacing, listItem, listID } = props;
+  const { index, itemSpacing, listItem, listID, itemWidth } = props;
   const itemRef = useRef(null);
 
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: listID,
-    item: monitor => ({ index, listID, element: listItem }),
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult();
-      if (item && dropResult) {
-        alert(`You dropped ${item.index} into ${dropResult.index}!`);
-      }
-    },
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: listID,
+      item: monitor => ({ index, listID, element: listItem, width: itemWidth }),
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult();
+        if (item && dropResult) {
+          alert(`You dropped ${item.index} into ${dropResult.index}!`);
+        }
+      },
+      collect: monitor => ({
+        isDragging: monitor.isDragging(),
+      }),
     }),
-  }));
+    [itemWidth]
+  );
 
-  const [{ canDrop, isOver, position }, drop] = useDrop(() => ({
-    accept: listID,
-    drop: () => ({ name: "Dustbin", index }),
-    collect: monitor => {
-      const isOver = monitor.isOver();
-      const canDrop = monitor.canDrop();
-      let position;
+  const [{ canDrop, isOver, position }, drop] = useDrop(
+    () => ({
+      accept: listID,
+      drop: () => ({ name: "Dustbin", index }),
+      collect: monitor => {
+        const isOver = monitor.isOver();
+        const canDrop = monitor.canDrop();
+        let position;
 
-      if (canDrop && isOver) {
-        const item = monitor.getItem();
-        if (item.index === index) {
-          position = 1;
-        } else {
-          // Determine rectangle on screen
-          const hoverBoundingRect = itemRef.current?.getBoundingClientRect();
-          // Get vertical middle
-          const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-          // Determine mouse position
-          const clientOffset = monitor.getClientOffset();
-          // Get pixels to the top
-          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        if (canDrop && isOver) {
+          const item = monitor.getItem();
+          if (item.index === index) {
+            position = 1;
+          } else {
+            // Determine rectangle on screen
+            const hoverBoundingRect = itemRef.current?.getBoundingClientRect();
+            // Get vertical middle
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+            // Determine mouse position
+            const clientOffset = monitor.getClientOffset();
+            // Get pixels to the top
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-          if (hoverClientY < hoverMiddleY && index !== item.index + 1) {
-            position = 0;
-          } else if (index !== item.index - 1) {
-            position = 2;
+            if (hoverClientY < hoverMiddleY && index !== item.index + 1) {
+              position = 0;
+            } else if (index !== item.index - 1) {
+              position = 2;
+            }
           }
         }
-      }
 
-      return {
-        position,
-        canDrop,
-        isOver,
-      };
-    },
-  }));
+        return {
+          position,
+          canDrop,
+          isOver,
+        };
+      },
+    }),
+    [itemWidth]
+  );
 
   return (
     <div ref={itemRef}>
@@ -135,4 +141,4 @@ const DragElement = (props, sampleRef) => {
   );
 };
 
-export default forwardRef(DragElement);
+export default memo(forwardRef(DragElement));
