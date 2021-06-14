@@ -1,5 +1,4 @@
 import { forwardRef, memo, useRef } from "react";
-import { Dustbin } from "../Dustbin";
 import Box from "../Box";
 import { useDrag, useDrop } from "react-dnd";
 import { DropLine } from "./DropLine";
@@ -7,23 +6,9 @@ import styled from "styled-components";
 
 const DropLineWrapper = styled.div`
   display: flex;
-  //background-color: red;
   height: ${props => props.itemSpacing}px;
   width: 100%;
 `;
-
-// const style = {
-//   height: 100,
-//   width: "100%",
-//   // marginRight: '1.5rem',
-//   // marginBottom: '1.5rem',
-//   color: "white",
-//   padding: "1rem",
-//   textAlign: "center",
-//   fontSize: "1rem",
-//   lineHeight: "normal",
-//   // float: 'left',
-// };
 
 const DragElement = (props, sampleRef) => {
   const { index, itemSpacing, listItem, listID, itemWidth } = props;
@@ -32,7 +17,7 @@ const DragElement = (props, sampleRef) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: listID,
-      item: monitor => ({ index, listID, element: listItem, width: itemWidth }),
+      item: { index, listID, element: listItem, width: itemWidth },
       end: (item, monitor) => {
         const dropResult = monitor.getDropResult();
         if (item && dropResult) {
@@ -46,7 +31,7 @@ const DragElement = (props, sampleRef) => {
     [itemWidth]
   );
 
-  const [{ canDrop, isOver, position }, drop] = useDrop(
+  const [position, drop] = useDrop(
     () => ({
       accept: listID,
       drop: () => ({ name: "Dustbin", index }),
@@ -77,11 +62,7 @@ const DragElement = (props, sampleRef) => {
           }
         }
 
-        return {
-          position,
-          canDrop,
-          isOver,
-        };
+        return position;
       },
     }),
     [itemWidth]
@@ -93,7 +74,6 @@ const DragElement = (props, sampleRef) => {
         ref={drop}
         role={"Dustbin"}
         style={{
-          // margin: -itemSpacing / 2 + "px 0",
           position: "relative",
           zIndex: isDragging ? 2 : 1,
         }}
@@ -129,7 +109,6 @@ const DragElement = (props, sampleRef) => {
 
         <DropLineWrapper
           style={{
-            // paddingTop: itemSpacing / 2,
             opacity: position === 2 ? 1 : 0,
           }}
           itemSpacing={itemSpacing}

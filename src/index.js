@@ -1,18 +1,15 @@
 import { render } from "react-dom";
-import Example from "./example";
 import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import styled from "styled-components";
 
-import { usePreview } from "react-dnd-preview";
 import DraggableList from "./draggable/DraggableList";
 import { useLayoutEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { ItemTypes } from "./ItemTypes";
 
 import faker from "faker";
 import DragPreview from "./draggable/DragPreview";
+import { Button } from "@material-ui/core";
 
 const Modes = Object.freeze({
   SMALL_LIST: "small",
@@ -58,10 +55,10 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <div onClick={() => setMode(Modes.SMALL_LIST)}>Small List</div>
-      <div onClick={() => setMode(Modes.STRESS_TEST)}>Stress Test</div>
-      <div onClick={() => setMode(Modes.REPORTS)}>Reports</div>
-      <div onClick={() => setMode(Modes.HAZARD)}>Hazard Ratings</div>
+      <Button onClick={() => setMode(Modes.SMALL_LIST)}>Small List</Button> |
+      <Button onClick={() => setMode(Modes.STRESS_TEST)}>Stress Test</Button> |
+      <Button onClick={() => setMode(Modes.REPORTS)}>Reports</Button> |
+      <Button onClick={() => setMode(Modes.HAZARD)}>Hazard Ratings</Button> |
       <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
         <DragPreview />
 
